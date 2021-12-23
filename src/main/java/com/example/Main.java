@@ -53,6 +53,14 @@ public class Main {
     return "index";
   }
 
+  @RequestMapping(value="/student",
+                method=RequestMethod.POST,
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public String createStudent(@RequestBody MultiValueMap<String, String> formData){
+    Statement stmt = connection.createStatement();
+    stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (name varchar, surname varchar, sex varchar, class varchar)");
+  }
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
