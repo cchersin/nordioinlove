@@ -4,9 +4,13 @@
 <body>
 
   <div class="container">
-    <ul th:each="student : ${students}">
-      <li th:text="${student.id} ${student.name} ${student.schoolClass} ${student.gender} ${student.genderPreference}"/>
-    </ul>
+    <div th:each="student : ${students}">
+      <span th:text="${student.id}"/>
+      <span th:text="${student.name}"/>
+      <span th:text="${student.schoolClass}"/>
+      <span th:text="${student.gender}"/>
+      <span th:text="${student.genderPreference}"/>
+    </div>
   </div>
   
 </body>
