@@ -1,0 +1,276 @@
+.u-section-1 {
+    min-height: 543px;
+  }
+  
+  .u-section-1 .u-layout-wrap-1 {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+  
+  .u-section-1 .u-image-1 {
+    background-image: url("images/989bb61e1f776f018f86f1a40ab8a88b.jpg");
+    background-position: 50% 50%;
+    min-height: 135px;
+  }
+  
+  .u-section-1 .u-container-layout-1 {
+    padding: 0 30px;
+  }
+  
+  .u-section-1 .u-text-1 {
+    font-family: "Abril Fatface";
+    margin: 0;
+  }
+  
+  .u-section-1 .u-layout-cell-2 {
+    min-height: 135px;
+  }
+  
+  .u-section-1 .u-container-layout-2 {
+    padding: 30px;
+  }
+  
+  .u-section-1 .u-text-2 {
+    font-size: 2.25rem;
+    margin: 0 auto;
+  }
+  
+  .u-section-1 .u-text-3 {
+    background-image: none;
+    font-family: Actor;
+    margin: 20px 0 0;
+  }
+  
+  .u-section-1 .u-shape-1 {
+    height: 52px;
+    margin-top: -152px;
+    margin-bottom: 0;
+  }
+  
+  .u-section-1 .u-text-4 {
+    margin-left: 10px;
+    margin-right: 810px;
+    font-family: Roboto, sans-serif;
+    font-weight: normal;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 1199px) {
+     .u-section-1 {
+      min-height: 519px;
+    }
+  
+    .u-section-1 .u-layout-wrap-1 {
+      position: relative;
+    }
+  
+    .u-section-1 .u-image-1 {
+      min-height: 111px;
+    }
+  
+    .u-section-1 .u-text-1 {
+      width: auto;
+    }
+  
+    .u-section-1 .u-layout-cell-2 {
+      min-height: 117px;
+    }
+  
+    .u-section-1 .u-text-2 {
+      margin-left: 668px;
+    }
+  
+    .u-section-1 .u-text-4 {
+      width: 420px;
+      margin-left: 119px;
+      margin-right: 441px;
+    }
+  }
+  
+  @media (max-width: 991px) {
+     .u-section-1 {
+      min-height: 508px;
+    }
+  
+    .u-section-1 .u-image-1 {
+      min-height: 85px;
+    }
+  
+    .u-section-1 .u-layout-cell-2 {
+      min-height: 139px;
+    }
+  
+    .u-section-1 .u-text-2 {
+      margin-left: 522px;
+    }
+  
+    .u-section-1 .u-text-4 {
+      margin-left: 45px;
+      margin-right: 295px;
+    }
+  }
+  
+  @media (max-width: 767px) {
+     .u-section-1 {
+      min-height: 636px;
+    }
+  
+    .u-section-1 .u-image-1 {
+      min-height: 64px;
+    }
+  
+    .u-section-1 .u-container-layout-1 {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  
+    .u-section-1 .u-container-layout-2 {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  
+    .u-section-1 .u-text-2 {
+      margin-left: 402px;
+    }
+  
+    .u-section-1 .u-text-4 {
+      margin-left: 26px;
+      margin-right: 175px;
+    }
+  }
+  
+  @media (max-width: 575px) {
+     .u-section-1 {
+      min-height: 526px;
+    }
+  
+    .u-section-1 .u-layout-wrap-1 {
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+  
+    .u-section-1 .u-image-1 {
+      min-height: 239px;
+    }
+  
+    .u-section-1 .u-container-layout-1 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  
+    .u-section-1 .u-text-1 {
+      margin-top: 90px;
+      margin-right: 84px;
+      margin-left: 108px;
+    }
+  
+    .u-section-1 .u-layout-cell-2 {
+      min-height: 256px;
+    }
+  
+    .u-section-1 .u-container-layout-2 {
+      padding: 0;
+    }
+  
+    .u-section-1 .u-text-2 {
+      width: auto;
+      font-size: 3rem;
+      margin-top: -150px;
+      margin-right: 82px;
+      margin-left: auto;
+    }
+  
+    .u-section-1 .u-text-3 {
+      font-family: "Abril Fatface";
+      width: auto;
+      margin-top: 181px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  
+    .u-section-1 .u-shape-1 {
+      margin-top: -255px;
+    }
+  
+    .u-section-1 .u-text-4 {
+      width: auto;
+      font-family: "Abril Fatface";
+      font-weight: 700;
+      margin: -36px 10px 219px;
+    }
+  }.u-section-2 .u-sheet-1 {
+    min-height: 371px;
+  }
+  
+  .u-section-2 .u-btn-1 {
+    background-image: none;
+    font-size: 1.25rem;
+    font-family: "Abril Fatface";
+    font-weight: 700;
+    margin: 163px auto 0;
+  }
+  
+  .u-section-2 .u-text-1 {
+    margin: -119px 587px 60px 516px;
+  }
+  
+  .u-section-2 .u-icon-1 {
+    font-size: 3.0834em;
+    vertical-align: 0px;
+  }
+  
+  @media (max-width: 1199px) {
+    .u-section-2 .u-btn-1 {
+      margin-top: 133px;
+      margin-left: 86px;
+    }
+  
+    .u-section-2 .u-text-1 {
+      margin-right: 487px;
+      margin-left: 416px;
+    }
+  
+    .u-section-2 .u-icon-1 {
+      color: rgb(17, 17, 17) !important;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .u-section-2 .u-text-1 {
+      margin-right: 377px;
+      margin-left: 306px;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .u-section-2 .u-text-1 {
+      margin-right: 287px;
+      margin-left: 216px;
+    }
+  }
+  
+  @media (max-width: 575px) {
+    .u-section-2 .u-sheet-1 {
+      min-height: 219px;
+    }
+  
+    .u-section-2 .u-btn-1 {
+      border-style: none;
+      align-self: center;
+      margin-top: 83px;
+      margin-left: auto;
+      padding: 10px 23px 11px;
+    }
+  
+    .u-section-2 .u-text-1 {
+      width: auto;
+      margin: -81px 85px 42px 116px;
+    }
+  
+    .u-section-2 .u-icon-1 {
+      font-size: 4.625em;
+      width: 111px;
+      height: 149px;
+      margin-left: 0;
+    }
+  }
