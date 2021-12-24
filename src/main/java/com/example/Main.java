@@ -42,7 +42,6 @@ import java.util.UUID;
 
 import org.springframework.util.MultiValueMap;
 
-import com.example.Student;
 
 
 @Controller
@@ -83,6 +82,31 @@ public class Main {
       insert.setString(3, formData.get("gender").toString());
       insert.setString(4, formData.get("school_class").toString());
       insert.setString(5, formData.get("gender_preference").toString());
+
+      // TODO created on
+      
+      insert.executeUpdate();
+
+      return "questions";
+    }
+  }
+
+  @RequestMapping(value="/answers",
+                method=RequestMethod.POST,
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  String saveAnswers(@RequestBody MultiValueMap<String, String> formData) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+     
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar)");
+      
+      PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?, ?)");
+      UUID studentId = java.util.UUID.randomUUID();
+      
+      insert.setObject(1, studentId);
+      // insert.setString(3, formData.get("gender").toString());
+      // insert.setString(4, formData.get("school_class").toString());
+      // insert.setString(5, formData.get("gender_preference").toString());
       
       insert.executeUpdate();
 
