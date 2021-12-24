@@ -25,6 +25,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.MediaType;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -33,6 +36,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import org.springframework.util.MultiValueMap;
+
 
 @Controller
 @SpringBootApplication
@@ -56,9 +61,11 @@ public class Main {
   @RequestMapping(value="/student",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  public String createStudent(@RequestBody MultiValueMap<String, String> formData){
-    Statement stmt = connection.createStatement();
-    stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (name varchar, surname varchar, sex varchar, class varchar)");
+  public void createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (name varchar, surname varchar, sex varchar, class varchar)");
+    }
   }
 
   @RequestMapping("/db")
