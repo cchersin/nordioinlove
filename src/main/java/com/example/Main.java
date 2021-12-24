@@ -35,11 +35,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.util.MultiValueMap;
+
+import com.example.Student;
 
 
 @Controller
@@ -64,22 +67,52 @@ public class Main {
   @RequestMapping(value="/student",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  public void createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
+  String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, schoolclass varchar, gender_preference varchar)");
+
+      // stmt.executeUpdate("DROP TABLE student");
+     
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar)");
       
-      PreparedStatement insert = connection.prepareStatement("insert into student id, name, gender, schoolclass, gender_preference values (:id, :name, :gender, :schoolclass, :gender_preference )");
+      PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference) values (?, ?, ?, ?, ? )");
       UUID id = java.util.UUID.randomUUID();
       
       insert.setObject(1, id);
       insert.setString(2, formData.get("name").toString());
       insert.setString(3, formData.get("gender").toString());
-      insert.setString(4, formData.get("schoolclass").toString());
-      insert.setString(5, formData.get("gender_preferenxe").toString());
+      insert.setString(4, formData.get("school_class").toString());
+      insert.setString(5, formData.get("gender_preference").toString());
       
       insert.executeUpdate();
+
+      return "questions";
     }
+  }
+
+  @RequestMapping(value="/students",
+                method=RequestMethod.GET)
+  String getStudents(Map<String, Object> model) throws Exception {
+    List<Student> students = new ArrayList<Student>();
+
+    try (Connection connection = dataSource.getConnection()) {
+      String query = "SELECT id, name, gender, school_class, gender_preference from student";
+      try (Statement stmt = connection.createStatement()) {
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+          Student student = new Student();
+          student.name = rs.getString("name");
+          student.schoolClass = rs.getString("school_class");
+          student.gender = rs.getString("gender");
+          student.genderPreference = rs.getString("gender_preference");
+          students.add(student);
+        }
+      }
+    }
+
+    model.put("students", students);
+
+    return "students";
   }
 
   @RequestMapping("/db")

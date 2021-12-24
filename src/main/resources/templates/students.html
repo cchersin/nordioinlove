@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
+
+<body>
+
+  <div class="container">
+    <ul th:each="student : ${students}">
+      <li th:text="${student.id} ${student.name} ${student.schoolClass} ${student.gender} ${student.genderPreference}"/>
+    </ul>
+  </div>
+  
+</body>
+</html>
