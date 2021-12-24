@@ -64,7 +64,7 @@ public class Main {
   public void createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (name varchar, surname varchar, sex varchar, class varchar)");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, schoolclass varchar, gender_preference varchar)");
     }
   }
 
