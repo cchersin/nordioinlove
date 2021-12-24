@@ -31,11 +31,14 @@ import org.springframework.http.MediaType;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.util.MultiValueMap;
 
 
@@ -65,6 +68,17 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, schoolclass varchar, gender_preference varchar)");
+      
+      PreparedStatement insert = connection.prepareStatement("insert into student id, name, gender, schoolclass, gender_preference values (:id, :name, :gender, :schoolclass, :gender_preference )");
+      UUID id = java.util.UUID.randomUUID();
+      
+      insert.setObject(1, id);
+      insert.setString(2, formData.get("name").toString());
+      insert.setString(3, formData.get("gender").toString());
+      insert.setString(4, formData.get("schoolclass").toString());
+      insert.setString(5, formData.get("gender_preferenxe").toString());
+      
+      insert.executeUpdate();
     }
   }
 
