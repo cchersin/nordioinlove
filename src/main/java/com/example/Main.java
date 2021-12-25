@@ -58,23 +58,27 @@ public class Main {
     SpringApplication.run(Main.class, args);
   }
 
-  @RequestMapping("/")
+  @RequestMapping("/public")
   String index() {
     return "index";
   }
 
-  @RequestMapping(value="/student",
+  void createDb() throws Exception{
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      // stmt.executeUpdate("DROP TABLE student");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar)");
+    }
+  }
+
+  @RequestMapping(value="/public/student",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
+    createDb();
 
-      // stmt.executeUpdate("DROP TABLE student");
-     
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar)");
-      
-      PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference) values (?, ?, ?, ?, ? )");
+    try (Connection connection = dataSource.getConnection()) {    
+       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference) values (?, ?, ?, ?, ? )");
       UUID id = java.util.UUID.randomUUID();
       
       insert.setObject(1, id);
@@ -91,7 +95,7 @@ public class Main {
     }
   }
 
-  @RequestMapping(value="/answers",
+  @RequestMapping(value="/public/answers",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   String saveAnswers(@RequestBody MultiValueMap<String, String> formData) throws Exception {
@@ -114,9 +118,11 @@ public class Main {
     }
   }
 
-  @RequestMapping(value="/students",
+  @RequestMapping(value="/admin/students",
                 method=RequestMethod.GET)
   String getStudents(Map<String, Object> model) throws Exception {
+    createDb();
+
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
