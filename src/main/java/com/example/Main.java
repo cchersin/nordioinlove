@@ -42,8 +42,6 @@ import java.util.UUID;
 
 import org.springframework.util.MultiValueMap;
 
-//import org.springframework.security.access.prepost.PreAuthorize;
-
 
 @Controller
 @SpringBootApplication
@@ -58,8 +56,7 @@ public class Main {
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
   }
-
-  //@PreAuthorize("permitAll()")  
+ 
   @RequestMapping("/")
   String index() {
     return "index";
@@ -72,8 +69,7 @@ public class Main {
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar)");
     }
   }
-
-  //@PreAuthorize("permitAll()")  
+ 
   @RequestMapping(value="/student",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -98,7 +94,6 @@ public class Main {
     }
   }
 
-  //@PreAuthorize("permitAll()")  
   @RequestMapping(value="/answers",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -122,7 +117,6 @@ public class Main {
     }
   }
 
-  //@PreAuthorize("hasRole('ADMIN')")  
   @RequestMapping(value="/admin/students",
                 method=RequestMethod.GET)
   String getStudents(Map<String, Object> model) throws Exception {
