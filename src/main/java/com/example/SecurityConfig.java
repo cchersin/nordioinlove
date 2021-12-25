@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 @Configuration
 @EnableWebMvc
@@ -24,13 +25,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+      web
+        .ignoring()
+        .antMatchers("/resources/**");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
           .httpBasic().and()
           .authorizeRequests()
-          .antMatchers("/public/**").permitAll()
+          .antMatchers("/**").permitAll()
           .antMatchers("/admin/**").hasRole("ADMIN")
           .anyRequest().authenticated();
+
     }
 
     @Bean

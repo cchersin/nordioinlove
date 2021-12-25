@@ -42,6 +42,7 @@ import java.util.UUID;
 
 import org.springframework.util.MultiValueMap;
 
+//import org.springframework.security.access.prepost.PreAuthorize;
 
 
 @Controller
@@ -58,7 +59,8 @@ public class Main {
     SpringApplication.run(Main.class, args);
   }
 
-  @RequestMapping("/public")
+  //@PreAuthorize("permitAll()")  
+  @RequestMapping("/")
   String index() {
     return "index";
   }
@@ -71,7 +73,8 @@ public class Main {
     }
   }
 
-  @RequestMapping(value="/public/student",
+  //@PreAuthorize("permitAll()")  
+  @RequestMapping(value="/student",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
@@ -95,7 +98,8 @@ public class Main {
     }
   }
 
-  @RequestMapping(value="/public/answers",
+  //@PreAuthorize("permitAll()")  
+  @RequestMapping(value="/answers",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   String saveAnswers(@RequestBody MultiValueMap<String, String> formData) throws Exception {
@@ -118,6 +122,7 @@ public class Main {
     }
   }
 
+  //@PreAuthorize("hasRole('ADMIN')")  
   @RequestMapping(value="/admin/students",
                 method=RequestMethod.GET)
   String getStudents(Map<String, Object> model) throws Exception {
