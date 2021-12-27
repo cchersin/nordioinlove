@@ -72,7 +72,8 @@ public class Main {
  
   @RequestMapping(value="/student",
                 method=RequestMethod.POST,
-                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+                produces = MediaType.APPLICATION_JSON_VALUE)
   String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
     createDb();
 
@@ -86,13 +87,14 @@ public class Main {
       insert.setString(4, formData.get("school_class").toString());
       insert.setString(5, formData.get("gender_preference").toString());
 
-      // TODO created on
+      // TODO created on, address
       
       insert.executeUpdate();
 
       return "questions";
     }
   }
+
 
   @RequestMapping(value="/answers",
                 method=RequestMethod.POST,
