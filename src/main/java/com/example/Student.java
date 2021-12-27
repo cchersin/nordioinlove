@@ -6,4 +6,5 @@ class Student {
     public String schoolClass;
     public String gender;
     public String genderPreference;
+    public String address;
 }
