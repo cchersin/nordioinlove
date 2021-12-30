@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
 
+<head>
+  <script>
+    document.querySelector('.u-form-submit').addEventListener('click', () => {
+      event.preventDefault();
+      event.stopPropagation();
+      document.querySelector('.u-inner-form').submit();
+    });
+  </script>
+</head>
 <body>
 
   <div class="container">

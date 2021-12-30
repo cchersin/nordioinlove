@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.MediaType;
 
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,6 +45,7 @@ import org.springframework.util.MultiValueMap;
 
 
 @Controller
+// @Scope("session")
 @SpringBootApplication
 public class Main {
 
@@ -52,6 +54,8 @@ public class Main {
 
   @Autowired
   private DataSource dataSource;
+
+  private boolean migrated = false;
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
@@ -62,11 +66,20 @@ public class Main {
     return "index";
   }
 
-  void createDb() throws Exception{
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      // stmt.executeUpdate("DROP TABLE student");
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar)");
+  void migrate() throws Exception{
+   if (!migrated) {
+      migrated = true; // TODO
+      System.out.println("-------- MIGRATE --------- ");
+      try (Connection connection = dataSource.getConnection()) {
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate("DROP TABLE IF EXISTS student;");
+        stmt.executeUpdate("DROP TABLE IF EXISTS answer;");
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, created_on timestamp DEFAULT NOW());");
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar);");
+        System.out.println("-------- MIGRATE END --------- ");
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
     }
   }
  
@@ -74,11 +87,11 @@ public class Main {
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
-  String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
-    createDb();
+  String createStudent(@RequestBody MultiValueMap<String, String> formData, Map<String, Object> model) throws Exception {
+    migrate();
 
     try (Connection connection = dataSource.getConnection()) {    
-       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference) values (?, ?, ?, ?, ? )");
+       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference, address) values (?, ?, ?, ?, ?, ?)");
       UUID id = java.util.UUID.randomUUID();
       
       insert.setObject(1, id);
@@ -86,24 +99,30 @@ public class Main {
       insert.setString(3, formData.get("gender").toString());
       insert.setString(4, formData.get("school_class").toString());
       insert.setString(5, formData.get("gender_preference").toString());
+      insert.setString(6, "" /*formData.get("address").toString()*/); //TODO
 
-      // TODO created on, address
+      // request.getSession().setAttribute("name", formData.get("name").toString());
       
       insert.executeUpdate();
+
+      model.put("name", formData.get("name").toString());
 
       return "questions";
     }
   }
+
+  
 
 
   @RequestMapping(value="/answers",
                 method=RequestMethod.POST,
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   String saveAnswers(@RequestBody MultiValueMap<String, String> formData) throws Exception {
+    migrate();
+
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
      
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar)");
       
       PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?, ?)");
       UUID studentId = java.util.UUID.randomUUID();
@@ -122,7 +141,7 @@ public class Main {
   @RequestMapping(value="/admin/students",
                 method=RequestMethod.GET)
   String getStudents(Map<String, Object> model) throws Exception {
-    createDb();
+    migrate();
 
     List<Student> students = new ArrayList<Student>();
 
