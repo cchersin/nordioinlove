@@ -68,14 +68,14 @@ public class Main {
 
   void migrate() throws Exception{
    if (!migrated) {
-      migrated = true; // TODO
+      migrated = true;
       System.out.println("-------- MIGRATE --------- ");
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("DROP TABLE IF EXISTS student;");
-        stmt.executeUpdate("DROP TABLE IF EXISTS answer;");
+        // stmt.executeUpdate("DROP TABLE IF EXISTS student;");
+        // stmt.executeUpdate("DROP TABLE IF EXISTS answer;");
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, created_on timestamp DEFAULT NOW());");
-        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar);");
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar, created_on timestamp DEFAULT NOW());");
         System.out.println("-------- MIGRATE END --------- ");
       } catch(Exception e) {
         e.printStackTrace();
@@ -105,14 +105,12 @@ public class Main {
       
       insert.executeUpdate();
 
+      model.put("student_id", id);
       model.put("name", formData.get("name").toString());
 
       return "questions";
     }
   }
-
-  
-
 
   @RequestMapping(value="/answers",
                 method=RequestMethod.POST,
@@ -121,20 +119,21 @@ public class Main {
     migrate();
 
     try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-     
-      
       PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?, ?)");
-      UUID studentId = java.util.UUID.randomUUID();
-      
-      insert.setObject(1, studentId);
-      // insert.setString(3, formData.get("gender").toString());
-      // insert.setString(4, formData.get("school_class").toString());
-      // insert.setString(5, formData.get("gender_preference").toString());
-      
-      insert.executeUpdate();
+    
+      formData.keySet().stream().filter(k -> k.startsWith("q")).forEach(question -> {
+        try {
+          insert.setObject(1, UUID.fromString(formData.get("student_id").toString()));
+          insert.setString(2, question);
+          insert.setString(3, formData.get(question).toString());
 
-      return "questions";
+          insert.executeUpdate();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+
+      return "bye";
     }
   }
 
