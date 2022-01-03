@@ -38,9 +38,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.util.MultiValueMap;
 
@@ -100,7 +104,7 @@ public class Main {
       insert.setString(3, formData.get("gender").toString());
       insert.setString(4, formData.get("school_class").toString());
       insert.setString(5, formData.get("gender_preference").toString());
-      insert.setString(6, "" /*formData.get("address").toString()*/); //TODO
+      insert.setString(6, formData.get("address") != null ? formData.get("address").toString() : null);
 
       // request.getSession().setAttribute("name", formData.get("name").toString());
       
@@ -143,20 +147,37 @@ public class Main {
   }
 
   void buildPreferences(Student student) throws Exception {
+    class SortByScore implements Comparator<Score> {
+      public int compare(Score a, Score b) {
+          return b.score - a.score;
+      }
+    }
+
     try (Connection connection = dataSource.getConnection()) {
-        PreparedStatement stmt = connection.prepareStatement("SELECT id from student where id != ? and (gender = ? or gender = 'nonbinary')");
+        PreparedStatement stmt = connection.prepareStatement("SELECT id, name from student where id != ? and (gender = ? or gender = 'nonbinary')");
         
         stmt.setObject(1, student.id);
-        stmt.setString(2, student.genderPreference);
+        stmt.setString(2, "ragazzi".equals(student.genderPreference)? "ragazzo" : "ragazza");
 
-        Map<UUID, Integer> scores = new HashMap<>();
+        List<Score> scores = new ArrayList<>();
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
           UUID candidateId = (UUID)rs.getObject("id");
-          Integer score = calcScore(student.id, candidateId);
-          scores.put(candidateId, score);
+          String candidateName = rs.getString("name");
+
+          Score score = new Score();
+
+          score.studentId = candidateId;
+          score.studentName = candidateName;
+          score.score = calcScore(student.id, candidateId);
+          
+          scores.add(score);
         }
+
+        //System.out.println();
+
+        student.preferences = scores.stream().sorted(new SortByScore()).limit(3).map(s -> s.studentName).collect(Collectors.toList());
     }
   }
 
@@ -178,9 +199,14 @@ public class Main {
           student.schoolClass = rs.getString("school_class");
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
+
+          buildPreferences(student);
+
           students.add(student);
         }
       }
+    } catch(Exception e) {
+      e.printStackTrace();
     }
 
     model.put("students", students);
