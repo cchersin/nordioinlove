@@ -38,6 +38,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -134,6 +135,28 @@ public class Main {
       });
 
       return "bye";
+    }
+  }
+
+  Integer calcScore(UUID id1, UUID id2) {
+    return 0;
+  }
+
+  void buildPreferences(Student student) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+        PreparedStatement stmt = connection.prepareStatement("SELECT id from student where id != ? and (gender = ? or gender = 'nonbinary')");
+        
+        stmt.setObject(1, student.id);
+        stmt.setString(2, student.genderPreference);
+
+        Map<UUID, Integer> scores = new HashMap<>();
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+          UUID candidateId = (UUID)rs.getObject("id");
+          Integer score = calcScore(student.id, candidateId);
+          scores.put(candidateId, score);
+        }
     }
   }
 

@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.List;
+
 class Student {
     public java.util.UUID id;
     public String name;
@@ -7,4 +9,5 @@ class Student {
     public String gender;
     public String genderPreference;
     public String address;
+    public List<String> preferences;
 }
