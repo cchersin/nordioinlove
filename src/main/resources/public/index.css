@@ -1,276 +1,214 @@
-.u-section-1 {
-    min-height: 543px;
+ .u-section-1 {
+  min-height: 543px;
+}
+
+.u-section-1 .u-layout-wrap-1 {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.u-section-1 .u-image-1 {
+  background-image: url("images/989bb61e1f776f018f86f1a40ab8a88b.jpg");
+  background-position: 50% 50%;
+  min-height: 135px;
+}
+
+.u-section-1 .u-container-layout-1 {
+  padding: 0 30px;
+}
+
+.u-section-1 .u-text-1 {
+  font-family: "Abril Fatface";
+  margin: 0;
+}
+
+@media (max-width: 1199px) {
+   .u-section-1 {
+    min-height: 519px;
   }
-  
+
   .u-section-1 .u-layout-wrap-1 {
-    margin-top: 60px;
-    margin-bottom: 60px;
+    position: relative;
   }
-  
+
   .u-section-1 .u-image-1 {
-    background-image: url("images/989bb61e1f776f018f86f1a40ab8a88b.jpg");
-    background-position: 50% 50%;
-    min-height: 135px;
+    min-height: 111px;
   }
-  
-  .u-section-1 .u-container-layout-1 {
-    padding: 0 30px;
-  }
-  
+
   .u-section-1 .u-text-1 {
-    font-family: "Abril Fatface";
-    margin: 0;
+    width: auto;
   }
-  
-  .u-section-1 .u-layout-cell-2 {
-    min-height: 135px;
+}
+
+@media (max-width: 991px) {
+   .u-section-1 {
+    min-height: 508px;
   }
-  
-  .u-section-1 .u-container-layout-2 {
-    padding: 30px;
+
+  .u-section-1 .u-image-1 {
+    min-height: 85px;
   }
-  
-  .u-section-1 .u-text-2 {
-    font-size: 2.25rem;
-    margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+   .u-section-1 {
+    min-height: 636px;
   }
-  
-  .u-section-1 .u-text-3 {
-    background-image: none;
-    font-family: Actor;
-    margin: 20px 0 0;
+
+  .u-section-1 .u-image-1 {
+    min-height: 64px;
   }
-  
-  .u-section-1 .u-shape-1 {
-    height: 52px;
-    margin-top: -152px;
-    margin-bottom: 0;
+
+  .u-section-1 .u-container-layout-1 {
+    padding-left: 10px;
+    padding-right: 10px;
   }
-  
-  .u-section-1 .u-text-4 {
-    margin-left: 10px;
-    margin-right: 810px;
-    font-family: Roboto, sans-serif;
-    font-weight: normal;
-    margin-top: 20px;
+}
+
+@media (max-width: 575px) {
+   .u-section-1 {
+    min-height: 248px;
   }
-  
-  @media (max-width: 1199px) {
-     .u-section-1 {
-      min-height: 519px;
-    }
-  
-    .u-section-1 .u-layout-wrap-1 {
-      position: relative;
-    }
-  
-    .u-section-1 .u-image-1 {
-      min-height: 111px;
-    }
-  
-    .u-section-1 .u-text-1 {
-      width: auto;
-    }
-  
-    .u-section-1 .u-layout-cell-2 {
-      min-height: 117px;
-    }
-  
-    .u-section-1 .u-text-2 {
-      margin-left: 668px;
-    }
-  
-    .u-section-1 .u-text-4 {
-      width: 420px;
-      margin-left: 119px;
-      margin-right: 441px;
-    }
+
+  .u-section-1 .u-layout-wrap-1 {
+    margin-top: 1px;
+    margin-bottom: 1px;
   }
-  
-  @media (max-width: 991px) {
-     .u-section-1 {
-      min-height: 508px;
-    }
-  
-    .u-section-1 .u-image-1 {
-      min-height: 85px;
-    }
-  
-    .u-section-1 .u-layout-cell-2 {
-      min-height: 139px;
-    }
-  
-    .u-section-1 .u-text-2 {
-      margin-left: 522px;
-    }
-  
-    .u-section-1 .u-text-4 {
-      margin-left: 45px;
-      margin-right: 295px;
-    }
+
+  .u-section-1 .u-image-1 {
+    min-height: 247px;
   }
-  
-  @media (max-width: 767px) {
-     .u-section-1 {
-      min-height: 636px;
-    }
-  
-    .u-section-1 .u-image-1 {
-      min-height: 64px;
-    }
-  
-    .u-section-1 .u-container-layout-1 {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  
-    .u-section-1 .u-container-layout-2 {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  
-    .u-section-1 .u-text-2 {
-      margin-left: 402px;
-    }
-  
-    .u-section-1 .u-text-4 {
-      margin-left: 26px;
-      margin-right: 175px;
-    }
+
+  .u-section-1 .u-container-layout-1 {
+    padding-left: 0;
+    padding-right: 0;
   }
-  
-  @media (max-width: 575px) {
-     .u-section-1 {
-      min-height: 526px;
-    }
-  
-    .u-section-1 .u-layout-wrap-1 {
-      margin-top: 0;
-      margin-bottom: 30px;
-    }
-  
-    .u-section-1 .u-image-1 {
-      min-height: 239px;
-    }
-  
-    .u-section-1 .u-container-layout-1 {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  
-    .u-section-1 .u-text-1 {
-      margin-top: 90px;
-      margin-right: 84px;
-      margin-left: 108px;
-    }
-  
-    .u-section-1 .u-layout-cell-2 {
-      min-height: 256px;
-    }
-  
-    .u-section-1 .u-container-layout-2 {
-      padding: 0;
-    }
-  
-    .u-section-1 .u-text-2 {
-      width: auto;
-      font-size: 3rem;
-      margin-top: -150px;
-      margin-right: 82px;
-      margin-left: auto;
-    }
-  
-    .u-section-1 .u-text-3 {
-      font-family: "Abril Fatface";
-      width: auto;
-      margin-top: 181px;
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-  
-    .u-section-1 .u-shape-1 {
-      margin-top: -255px;
-    }
-  
-    .u-section-1 .u-text-4 {
-      width: auto;
-      font-family: "Abril Fatface";
-      font-weight: 700;
-      margin: -36px 10px 219px;
-    }
-  }.u-section-2 .u-sheet-1 {
-    min-height: 371px;
+
+  .u-section-1 .u-text-1 {
+    width: 248px;
+    margin-top: 98px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  .u-section-2 .u-btn-1 {
-    background-image: none;
-    font-size: 1.25rem;
-    font-family: "Abril Fatface";
-    font-weight: 700;
-    margin: 163px auto 0;
+}.u-section-2 .u-sheet-1 {
+  min-height: 111px;
+}
+
+.u-section-2 .u-text-1 {
+  font-family: "Abril Fatface";
+  font-weight: 700;
+  margin: 10px auto;
+}
+
+@media (max-width: 575px) {
+  .u-section-2 .u-sheet-1 {
+    min-height: 69px;
   }
-  
+
   .u-section-2 .u-text-1 {
-    margin: -119px 587px 60px 516px;
+    width: 198px;
+    margin-top: 23px;
+    margin-bottom: 23px;
   }
-  
-  .u-section-2 .u-icon-1 {
-    font-size: 3.0834em;
-    vertical-align: 0px;
+}.u-section-3 .u-sheet-1 {
+  min-height: 500px;
+}
+
+.u-section-3 .u-text-1 {
+  font-family: "Abril Fatface";
+  margin: 198px 118px 60px 0;
+}
+
+@media (max-width: 1199px) {
+  .u-section-3 .u-text-1 {
+    margin-right: 0;
   }
-  
-  @media (max-width: 1199px) {
-    .u-section-2 .u-btn-1 {
-      margin-top: 133px;
-      margin-left: 86px;
-    }
-  
-    .u-section-2 .u-text-1 {
-      margin-right: 487px;
-      margin-left: 416px;
-    }
-  
-    .u-section-2 .u-icon-1 {
-      color: rgb(17, 17, 17) !important;
-    }
+}
+
+@media (max-width: 575px) {
+  .u-section-3 .u-sheet-1 {
+    min-height: 273px;
   }
-  
-  @media (max-width: 991px) {
-    .u-section-2 .u-text-1 {
-      margin-right: 377px;
-      margin-left: 306px;
-    }
+
+  .u-section-3 .u-text-1 {
+    width: auto;
+    font-weight: 700;
+    margin-top: 53px;
   }
-  
-  @media (max-width: 767px) {
-    .u-section-2 .u-text-1 {
-      margin-right: 287px;
-      margin-left: 216px;
-    }
+}.u-section-4 .u-sheet-1 {
+  min-height: 371px;
+}
+
+.u-section-4 .u-text-1 {
+  margin: -119px 587px 60px 516px;
+}
+
+.u-section-4 .u-group-1 {
+  margin-bottom: 60px;
+  margin-top: 30px;
+}
+
+.u-section-4 .u-container-layout-1 {
+  padding: 30px;
+}
+
+.u-section-4 .u-text-2 {
+  font-family: "Abril Fatface";
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 73px auto 0;
+}
+
+.u-section-4 .u-icon-1 {
+  background-image: none;
+}
+
+@media (max-width: 1199px) {
+  .u-section-4 .u-text-1 {
+    margin-right: 487px;
+    margin-left: 416px;
   }
-  
-  @media (max-width: 575px) {
-    .u-section-2 .u-sheet-1 {
-      min-height: 219px;
-    }
-  
-    .u-section-2 .u-btn-1 {
-      border-style: none;
-      align-self: center;
-      margin-top: 83px;
-      margin-left: auto;
-      padding: 10px 23px 11px;
-    }
-  
-    .u-section-2 .u-text-1 {
-      width: auto;
-      margin: -81px 85px 42px 116px;
-    }
-  
-    .u-section-2 .u-icon-1 {
-      font-size: 4.625em;
-      width: 111px;
-      height: 149px;
-      margin-left: 0;
-    }
+}
+
+@media (max-width: 991px) {
+  .u-section-4 .u-text-1 {
+    margin-right: 377px;
+    margin-left: 306px;
   }
+}
+
+@media (max-width: 767px) {
+  .u-section-4 .u-text-1 {
+    margin-right: 287px;
+    margin-left: 216px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-4 .u-sheet-1 {
+    min-height: 392px;
+  }
+
+  .u-section-4 .u-text-1 {
+    width: auto;
+    margin: 19px -148px 0 375px;
+  }
+
+  .u-section-4 .u-group-1 {
+    min-height: 170px;
+    width: 187px;
+    margin-top: 91px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .u-section-4 .u-container-layout-1 {
+    padding: 0;
+  }
+
+  .u-section-4 .u-icon-1 {
+    width: 100px;
+    height: 100px;
+    margin: -62px auto 0;
+  }
+}
