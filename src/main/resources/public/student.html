@@ -15,14 +15,10 @@
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface:400">    
 
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+    </script>
     
-    
-    <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "",
-		"logo": "images/nordio.jpg"
-}</script>
+ 
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="student">
     <meta property="og:type" content="website">
@@ -97,6 +93,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
+            <div class="u-form-group">
+              <div id="google_recaptcha"></div>
+            </div>
             <div class="u-align-left u-form-group u-form-submit">
               <a href="#" style="font-family: Abril Fatface; font-size:20px; font-weight: 700;" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-hover-black u-none u-text-black u-text-hover-white u-btn-1">CONTINUA<br>
               </a>
@@ -105,6 +104,7 @@
             <div class="u-form-send-message u-form-send-success"> Grazie! Il tuo messaggio è stato inviato con successo! </div>
             <div class="u-form-send-error u-form-send-message"> Impossibile inviare il messaggio. Si prega di correggere gli errori e riprovare a inviare. </div>
             <input type="hidden" value="" name="recaptchaResponse">
+            
           </form>
         </div>
       </div>
@@ -126,12 +126,10 @@
   </body>
 
   <script>
-    /* document.querySelector('.u-form-submit').addEventListener('click', () => {
-      event.preventDefault();
-      event.stopPropagation();
-      const form = document.querySelector('.u-inner-form');
-      $(form).validate();
-      form.submit();
-    }); */
+    var onloadCallback = function() {
+        /*grecaptcha.render('google_recaptcha', {
+          'sitekey' : '6LfFSIUUAXXXXXXXXXXXDk7giXSN6Y8'
+        });*/
+      };
   </script>
 </html>

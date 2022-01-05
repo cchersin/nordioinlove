@@ -1,5 +1,5 @@
  .u-section-1 {
-  min-height: 543px;
+   min-height: 543px; 
 }
 
 .u-section-1 .u-layout-wrap-1 {
@@ -52,11 +52,11 @@
 
 @media (max-width: 767px) {
    .u-section-1 {
-    min-height: 636px;
+    min-height: 247px;
   }
 
   .u-section-1 .u-image-1 {
-    min-height: 64px;
+    min-height: 247px;
   }
 
   .u-section-1 .u-container-layout-1 {
