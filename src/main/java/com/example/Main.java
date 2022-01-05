@@ -38,12 +38,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.util.MultiValueMap;
@@ -77,8 +74,6 @@ public class Main {
       System.out.println("-------- MIGRATE --------- ");
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
-        // stmt.executeUpdate("DROP TABLE IF EXISTS student;");
-        // stmt.executeUpdate("DROP TABLE IF EXISTS answer;");
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, created_on timestamp DEFAULT NOW());");
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar, created_on timestamp DEFAULT NOW());");
         System.out.println("-------- MIGRATE END --------- ");
@@ -214,6 +209,19 @@ public class Main {
     return "students";
   }
 
+  @RequestMapping(value="/admin/reset",
+                method=RequestMethod.POST)
+  String reset() throws Exception {  
+    System.out.println("RESET!!!!");
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("DROP TABLE IF EXISTS student;");
+      stmt.executeUpdate("DROP TABLE IF EXISTS answer;");
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+    return "index";
+  }
 
   @Bean
   public DataSource dataSource() throws SQLException {
