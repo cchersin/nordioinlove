@@ -85,21 +85,21 @@ public class Main {
  
   @RequestMapping(value="/student",
                 method=RequestMethod.POST,
-                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-                produces = MediaType.APPLICATION_JSON_VALUE)
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   String createStudent(@RequestBody MultiValueMap<String, String> formData, Map<String, Object> model) throws Exception {
     migrate();
 
     try (Connection connection = dataSource.getConnection()) {    
-       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference, address) values (?, ?, ?, ?, ?, ?)");
+      PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference, address) values (?, ?, ?, ?, ?, ?)");
+      
       UUID id = java.util.UUID.randomUUID();
       
       insert.setObject(1, id);
-      insert.setString(2, formData.get("name").toString());
-      insert.setString(3, formData.get("gender").toString());
-      insert.setString(4, formData.get("school_class").toString());
-      insert.setString(5, formData.get("gender_preference").toString());
-      insert.setString(6, formData.get("address") != null ? formData.get("address").toString() : null);
+      insert.setString(2, String.valueOf(formData.get("name").get(0)));
+      insert.setString(3, formData.get("gender").get(0));
+      insert.setString(4, formData.get("school_class").get(0));
+      insert.setString(5, formData.get("gender_preference").get(0));
+      insert.setString(6, formData.get("address").get(0));
 
       // request.getSession().setAttribute("name", formData.get("name").toString());
       
@@ -150,17 +150,17 @@ public class Main {
 
     List<Score> scores = new ArrayList<>();
     String requiredGender = null;
-    if("[ragazzi]".equals(student.genderPreference)) {
-      requiredGender = "[ragazzo]";
-    } else if("[ragazze]".equals(student.genderPreference)) {
-      requiredGender = "[ragazza]";
+    if("ragazzi".equals(student.genderPreference)) {
+      requiredGender = "ragazzo";
+    } else if("ragazze".equals(student.genderPreference)) {
+      requiredGender = "ragazza";
     }
 
     try (Connection connection = dataSource.getConnection()) {
 
         String sql = "SELECT id, name from student where id != ? ";
         if (requiredGender != null) {
-          sql += " and (gender = ? or gender = '[nonbinary]')";
+          sql += " and (gender = ? or gender = 'nonbinary')";
         }
         PreparedStatement stmt = connection.prepareStatement(sql);
         
@@ -171,7 +171,6 @@ public class Main {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-          System.out.println("next....");
           UUID candidateId = (UUID)rs.getObject("id");
           String candidateName = rs.getString("name");
 
@@ -198,7 +197,7 @@ public class Main {
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference from student";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address from student order by school_class, name";
       try (Statement stmt = connection.createStatement()) {
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
