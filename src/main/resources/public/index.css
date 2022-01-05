@@ -10,7 +10,7 @@
 .u-section-1 .u-image-1 {
   background-image: url("images/989bb61e1f776f018f86f1a40ab8a88b.jpg");
   background-position: 50% 50%;
-  min-height: 135px;
+  min-height: 247px;
 }
 
 .u-section-1 .u-container-layout-1 {
@@ -32,7 +32,7 @@
   }
 
   .u-section-1 .u-image-1 {
-    min-height: 111px;
+    min-height: 247px;
   }
 
   .u-section-1 .u-text-1 {
@@ -42,11 +42,11 @@
 
 @media (max-width: 991px) {
    .u-section-1 {
-    min-height: 508px;
+    min-height: 247px;
   }
 
   .u-section-1 .u-image-1 {
-    min-height: 85px;
+    min-height: 247px;
   }
 }
 
