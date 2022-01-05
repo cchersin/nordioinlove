@@ -148,16 +148,30 @@ public class Main {
       }
     }
 
+    List<Score> scores = new ArrayList<>();
+    String requiredGender = null;
+    if("[ragazzi]".equals(student.genderPreference)) {
+      requiredGender = "[ragazzo]";
+    } else if("[ragazze]".equals(student.genderPreference)) {
+      requiredGender = "[ragazza]";
+    }
+
     try (Connection connection = dataSource.getConnection()) {
-        PreparedStatement stmt = connection.prepareStatement("SELECT id, name from student where id != ? and (gender = ? or gender = 'nonbinary')");
+
+        String sql = "SELECT id, name from student where id != ? ";
+        if (requiredGender != null) {
+          sql += " and (gender = ? or gender = '[nonbinary]')";
+        }
+        PreparedStatement stmt = connection.prepareStatement(sql);
         
         stmt.setObject(1, student.id);
-        stmt.setString(2, "ragazzi".equals(student.genderPreference)? "ragazzo" : "ragazza");
-
-        List<Score> scores = new ArrayList<>();
+        if (requiredGender != null) {
+           stmt.setString(2, requiredGender);
+        }
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
+          System.out.println("next....");
           UUID candidateId = (UUID)rs.getObject("id");
           String candidateName = rs.getString("name");
 
@@ -170,7 +184,7 @@ public class Main {
           scores.add(score);
         }
 
-        //System.out.println();
+        System.out.println("Found " + scores.size() + " preferences for " + requiredGender + " " + student.id);
 
         student.preferences = scores.stream().sorted(new SortByScore()).limit(3).map(s -> s.studentName).collect(Collectors.toList());
     }
