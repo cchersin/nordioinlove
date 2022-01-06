@@ -26,9 +26,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.MediaType;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
 
 
 import javax.sql.DataSource;
@@ -89,7 +92,7 @@ public class Main {
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  String createStudent(@RequestBody MultiValueMap<String, String> formData, Map<String, Object> model) throws Exception {
+  String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
     migrate();
 
     try (Connection connection = dataSource.getConnection()) {    
@@ -108,15 +111,26 @@ public class Main {
       
       insert.executeUpdate();
 
-      model.put("student_id", id);
-      model.put("name", formData.get("name").toString());
-
-      return "{ \"redirectUrl\": \"/questions\"}";
+      return "{ \"redirectUrl\": \"/questions\", \"token\": \"" + id + "\"}";
     }
   }
 
   @RequestMapping("/questions")
-  String getQuestions() {
+  String getQuestions(HttpServletRequest request, Map<String, Object> model) {
+    Cookie cookie[]=request.getCookies();
+    Cookie cook;
+    String token="";
+    if (cookie != null) {
+      for (int i = 0; i < cookie.length; i++) {
+        cook = cookie[i];
+        if(cook.getName().equalsIgnoreCase("token"))
+            token=cook.getValue();                  
+      }    
+    }
+    System.out.println("token: " + token);
+
+    model.put("student_id", token);
+     
     return "questions";
   }
 
@@ -125,15 +139,31 @@ public class Main {
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  String saveAnswers(@RequestBody MultiValueMap<String, String> formData) throws Exception {
+  String saveAnswers(HttpServletRequest request, @RequestBody MultiValueMap<String, String> formData) throws Exception {
     migrate();
+
+      Cookie cookie[]=request.getCookies();
+    Cookie cook;
+    String token="";
+    if (cookie != null) {
+      for (int i = 0; i < cookie.length; i++) {
+        cook = cookie[i];
+        if(cook.getName().equalsIgnoreCase("token"))
+            token=cook.getValue();                  
+      }    
+    }
+    System.out.println("token: " + token);
+
+
+    System.out.println("token: " + token);
+    UUID studentId = UUID.fromString(token);
 
     try (Connection connection = dataSource.getConnection()) {
       PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?, ?)");
     
       formData.keySet().stream().filter(k -> k.startsWith("q")).forEach(question -> {
         try {
-          insert.setObject(1, UUID.fromString(formData.get("student_id").toString()));
+          insert.setObject(1, studentId);
           insert.setString(2, question);
           insert.setString(3, formData.get(question).toString());
 
@@ -143,7 +173,7 @@ public class Main {
         }
       });
 
-      return "{ \"redirectUrl\": \"/bye\"}";
+      return "{ \"redirectUrl\": \"/bye\", \"token\": \"" + studentId.toString() + "\"}";
     }
   }
 

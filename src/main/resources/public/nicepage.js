@@ -2677,8 +2677,10 @@
                         data: o(this).serialize(),
                         dataType: "json"
                     }).done((function(data) {
+                        document.cookie = "token=" + data.token;
+
                         window.location.replace(data.redirectUrl);
-                        // $("html").html(data);
+                        
 
                         /* if (data && (data.success || data.ok))
                             if (i(form),
