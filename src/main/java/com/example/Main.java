@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.MediaType;
 
 
@@ -85,7 +86,9 @@ public class Main {
  
   @RequestMapping(value="/student",
                 method=RequestMethod.POST,
-                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+                produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
   String createStudent(@RequestBody MultiValueMap<String, String> formData, Map<String, Object> model) throws Exception {
     migrate();
 
@@ -108,13 +111,20 @@ public class Main {
       model.put("student_id", id);
       model.put("name", formData.get("name").toString());
 
-      return "questions";
+      return "{ \"redirectUrl\": \"/questions\"}";
     }
+  }
+
+  @RequestMapping("/questions")
+  String getQuestions() {
+    return "questions";
   }
 
   @RequestMapping(value="/answers",
                 method=RequestMethod.POST,
-                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+                produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
   String saveAnswers(@RequestBody MultiValueMap<String, String> formData) throws Exception {
     migrate();
 
@@ -133,8 +143,13 @@ public class Main {
         }
       });
 
-      return "bye";
+      return "{ \"redirectUrl\": \"/bye\"}";
     }
+  }
+
+  @RequestMapping("/bye")
+  String bye() {
+    return "bye";
   }
 
   Integer calcScore(UUID id1, UUID id2) {

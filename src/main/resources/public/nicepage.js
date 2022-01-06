@@ -2675,9 +2675,10 @@
                         type: s,
                         url: url,
                         data: o(this).serialize(),
-                        // dataType: "json"
+                        dataType: "json"
                     }).done((function(data) {
-                        $("html").html(data);
+                        window.location.replace(data.redirectUrl);
+                        // $("html").html(data);
 
                         /* if (data && (data.success || data.ok))
                             if (i(form),
