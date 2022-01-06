@@ -193,6 +193,10 @@ public class Main {
       }
     }
 
+    // TODO mark already linked
+    // TODO read in memory all students, answer to avoid multiple selects...
+    // TODO multiple select gender preferences
+
     List<Score> scores = new ArrayList<>();
     String requiredGender = null;
     if("ragazzi".equals(student.genderPreference)) {
