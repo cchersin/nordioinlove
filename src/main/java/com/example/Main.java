@@ -159,7 +159,7 @@ public class Main {
     UUID studentId = UUID.fromString(token);
 
     try (Connection connection = dataSource.getConnection()) {
-      PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?, ?)");
+      PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?)");
     
       formData.keySet().stream().filter(k -> k.startsWith("q")).forEach(question -> {
         try {
