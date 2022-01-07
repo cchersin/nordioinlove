@@ -100,11 +100,24 @@ public class Main {
       
       UUID id = java.util.UUID.randomUUID();
       
+
+      List<String> genderPreferences = new ArrayList<String>();
+      
+      if (formData.get("ragazzo") != null) {
+        genderPreferences.add("ragazzo");
+      }
+      if (formData.get("ragazza") != null) {
+        genderPreferences.add("ragazza");
+      }
+      if (formData.get("nonbinary") != null) {
+        genderPreferences.add("nonbinary");
+      }
+
       insert.setObject(1, id);
       insert.setString(2, String.valueOf(formData.get("name").get(0)));
       insert.setString(3, formData.get("gender").get(0));
       insert.setString(4, formData.get("school_class").get(0));
-      insert.setString(5, formData.get("gender_preference").get(0));
+      insert.setString(5, genderPreferences.stream().map(String::valueOf).collect(Collectors.joining(",")));
       insert.setString(6, formData.get("address").get(0));
 
       // request.getSession().setAttribute("name", formData.get("name").toString());
