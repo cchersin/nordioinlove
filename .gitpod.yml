@@ -2,5 +2,8 @@ image:
   file: .gitpod.dockerfile
 
 tasks:
-  - init: psql -c '\x' -c 'CREATE DATABASE nordioinlove;' ./mvnw spring-boot:run;
+  - init: psql -c '\x' -c 'CREATE DATABASE nordioinlove;'
 
+  - name: Run
+    command: ./mvnw spring-boot:run;
+    openMode: split-right
