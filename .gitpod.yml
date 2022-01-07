@@ -7,3 +7,10 @@ tasks:
   - name: Run
     command: ./mvnw spring-boot:run;
     openMode: split-right
+
+vscode:
+  extensions:
+    - redhat.java
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-test
+    - pivotal.vscode-spring-boot
