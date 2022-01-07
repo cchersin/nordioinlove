@@ -26,7 +26,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.MediaType;
@@ -44,6 +43,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -155,7 +155,7 @@ public class Main {
   String saveAnswers(HttpServletRequest request, @RequestBody MultiValueMap<String, String> formData) throws Exception {
     migrate();
 
-      Cookie cookie[]=request.getCookies();
+    Cookie cookie[]=request.getCookies();
     Cookie cook;
     String token="";
     if (cookie != null) {
@@ -199,56 +199,40 @@ public class Main {
     return 0;
   }
 
-  void buildPreferences(Student student) throws Exception {
+  void buildPreferences(Student student,  Map<UUID, Student> candidates) throws Exception {
     class SortByScore implements Comparator<Score> {
       public int compare(Score a, Score b) {
           return b.score - a.score;
       }
     }
 
-    // TODO mark already linked
-    // TODO read in memory all students, answer to avoid multiple selects...
-    // TODO multiple select gender preferences
-
     List<Score> scores = new ArrayList<>();
-    String requiredGender = null;
-    if("ragazzi".equals(student.genderPreference)) {
-      requiredGender = "ragazzo";
-    } else if("ragazze".equals(student.genderPreference)) {
-      requiredGender = "ragazza";
+
+    List<String> genderPreference = List.of(student.genderPreference.split(" ,"));
+       
+    for(UUID candidateId : candidates.keySet()) {
+      Student candidate = candidates.get(candidateId);
+      if(candidate.id != student.id && genderPreference.contains(candidate.gender)) {
+        Score score = new Score();
+
+        score.studentId = candidate.id;
+        score.studentName = candidate.name;
+        score.studentClass = candidate.schoolClass;
+        score.score = calcScore(student.id, candidate.id);
+      
+        scores.add(score);
+      }
     }
 
-    try (Connection connection = dataSource.getConnection()) {
+    System.out.println("Found " + scores.size() + " preferences for " + student.id);
 
-        String sql = "SELECT id, name from student where id != ? ";
-        if (requiredGender != null) {
-          sql += " and (gender = ? or gender = 'nonbinary')";
-        }
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        
-        stmt.setObject(1, student.id);
-        if (requiredGender != null) {
-           stmt.setString(2, requiredGender);
-        }
-
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-          UUID candidateId = (UUID)rs.getObject("id");
-          String candidateName = rs.getString("name");
-
-          Score score = new Score();
-
-          score.studentId = candidateId;
-          score.studentName = candidateName;
-          score.score = calcScore(student.id, candidateId);
-          
-          scores.add(score);
-        }
-
-        System.out.println("Found " + scores.size() + " preferences for " + requiredGender + " " + student.id);
-
-        student.preferences = scores.stream().sorted(new SortByScore()).limit(3).map(s -> s.studentName).collect(Collectors.toList());
+    List<Score> preferences = scores.stream().sorted(new SortByScore()).limit(3).collect(Collectors.toList());
+    for(Score p : preferences) {
+      Student candidate = candidates.get(p.studentId);
+      candidate.chosen += 1;
     }
+
+    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass).collect(Collectors.toList());
   }
 
   @RequestMapping(value="/admin/students",
@@ -269,14 +253,20 @@ public class Main {
           student.schoolClass = rs.getString("school_class");
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
-
-          buildPreferences(student);
-
           students.add(student);
         }
       }
     } catch(Exception e) {
       e.printStackTrace();
+    }
+
+    Map<UUID, Student> candidates = new HashMap<UUID, Student>();
+    for(Student student: students) {
+      candidates.put(student.id, student);
+    }
+  
+   for(Student student: students) {
+      buildPreferences(student, candidates);
     }
 
     model.put("students", students);
