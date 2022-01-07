@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.springframework.util.MultiValueMap;
 
@@ -210,7 +211,13 @@ public class Main {
 
     List<String> genderPreference = List.of(student.genderPreference.split(" ,"));
        
+    List<UUID> candidateList = new ArrayList<UUID>();
     for(UUID candidateId : candidates.keySet()) {
+      candidateList.add(candidateId);
+    }
+    Collections.shuffle(candidateList);
+
+    for(UUID candidateId : candidateList) {
       Student candidate = candidates.get(candidateId);
       if(candidate.id != student.id && genderPreference.contains(candidate.gender)) {
         Score score = new Score();
@@ -219,6 +226,7 @@ public class Main {
         score.studentName = candidate.name;
         score.studentClass = candidate.schoolClass;
         score.score = calcScore(student.id, candidate.id);
+        score.score -= candidate.chosen;
       
         scores.add(score);
       }
