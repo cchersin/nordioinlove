@@ -207,9 +207,12 @@ public class Main {
       }
     }
 
+    System.out.println(candidates.size() + " candidates for " + student.id + ", gender preferences: " + student.genderPreference);
+
+
     List<Score> scores = new ArrayList<>();
 
-    List<String> genderPreference = List.of(student.genderPreference.split(" ,"));
+    List<String> genderPreference = List.of(student.genderPreference.split(","));
        
     List<UUID> candidateList = new ArrayList<UUID>();
     for(UUID candidateId : candidates.keySet()) {
@@ -217,9 +220,13 @@ public class Main {
     }
     Collections.shuffle(candidateList);
 
+
     for(UUID candidateId : candidateList) {
       Student candidate = candidates.get(candidateId);
+      System.out.println(candidate.id + " has gender " + candidate.gender);
+
       if(candidate.id != student.id && genderPreference.contains(candidate.gender)) {
+     
         Score score = new Score();
 
         score.studentId = candidate.id;
