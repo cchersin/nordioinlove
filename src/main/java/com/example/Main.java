@@ -181,7 +181,7 @@ public class Main {
   }
 
   Integer calcScore(Student student, Student candidate) {
-    Integer score = 0;
+    Integer score = candidate.answers.size();
 
     for(String q : student.answers.keySet()) {
         String candidateA = candidate.answers.get(q);
@@ -221,7 +221,7 @@ public class Main {
       Student candidate = candidates.get(candidateId);
       System.out.println(candidate.id + " has gender " + candidate.gender);
 
-      if(candidate.id != student.id && genderPreference.contains(candidate.gender)) {
+      if(candidate.id != student.id && (genderPreference.contains(candidate.gender) || genderPreference.size() == 0)) {
      
         Score score = new Score();
 
