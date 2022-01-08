@@ -166,10 +166,9 @@ public class Main {
             token=cook.getValue();                  
       }    
     }
-    System.out.println("token: " + token);
-
 
     System.out.println("token: " + token);
+
     UUID studentId = UUID.fromString(token);
 
     try (Connection connection = dataSource.getConnection()) {
@@ -177,11 +176,15 @@ public class Main {
     
       formData.keySet().stream().filter(k -> k.startsWith("q")).forEach(question -> {
         try {
+          String answer = formData.get(question).toString();
+
           insert.setObject(1, studentId);
           insert.setString(2, question);
-          insert.setString(3, formData.get(question).toString());
+          insert.setString(3, answer);
 
           insert.executeUpdate();
+
+          System.out.println(studentId + " answered " +  answer + " to " + question);
         } catch (SQLException e) {
           e.printStackTrace();
         }
