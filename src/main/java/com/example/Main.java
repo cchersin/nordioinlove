@@ -79,7 +79,7 @@ public class Main {
       System.out.println("-------- MIGRATE --------- ");
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, created_on timestamp DEFAULT NOW());");
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, preferences varchar, created_on timestamp DEFAULT NOW());");
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar, created_on timestamp DEFAULT NOW());");
         System.out.println("-------- MIGRATE END --------- ");
       } catch(Exception e) {
@@ -240,18 +240,29 @@ public class Main {
       candidate.chosen += 1;
     }
 
-    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass).collect(Collectors.toList());
+    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass).collect(Collectors.toList()).toString();
+
+    try (Connection connection = dataSource.getConnection()) {    
+      PreparedStatement update = connection.prepareStatement("update student set preferences = ? where id = ?");
+  
+      update.setObject(1, student.preferences);
+      update.setObject(2, student.id);
+         
+      update.executeUpdate();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
   }
 
-  @RequestMapping(value="/admin/students",
-                method=RequestMethod.GET)
-  String getStudents(Map<String, Object> model) throws Exception {
+  @RequestMapping(value="/admin/build-preferences",
+                method=RequestMethod.POST)
+  String buildPreferences() throws Exception {
     migrate();
 
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference, address from student order by school_class, name";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address from student order by created_on";
       try (Statement stmt = connection.createStatement()) {
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
@@ -275,9 +286,45 @@ public class Main {
   
    for(Student student: students) {
       buildPreferences(student, candidates);
+   }
+ 
+    return "students";
+  }
+
+
+  @RequestMapping(value="/admin/students",
+                method=RequestMethod.GET)
+  String getStudents(Map<String, Object> model) throws Exception {
+    migrate();
+
+    List<Student> students = new ArrayList<Student>();
+
+    try (Connection connection = dataSource.getConnection()) {
+      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences from student order by school_class, name";
+      try (Statement stmt = connection.createStatement()) {
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+          Student student = new Student();
+          student.id = (UUID)rs.getObject("id");
+          student.name = rs.getString("name");
+          student.schoolClass = rs.getString("school_class");
+          student.gender = rs.getString("gender");
+          student.genderPreference = rs.getString("gender_preference");
+          student.preferences = rs.getString("preferences");
+          if (student.preferences == null) {
+            student.preferences = "?";
+          }
+          students.add(student);
+        }
+      }
+    } catch(Exception e) {
+      e.printStackTrace();
     }
 
     model.put("students", students);
+
+
+    System.out.println("Found " + students.size() +  " students");
 
     return "students";
   }

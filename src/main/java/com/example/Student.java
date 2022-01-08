@@ -9,6 +9,6 @@ class Student {
     public String gender;
     public String genderPreference;
     public String address;
-    public List<String> preferences;
+    public String preferences;
     public int chosen = 0;
 }
