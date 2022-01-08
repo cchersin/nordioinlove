@@ -204,7 +204,11 @@ public class Main {
 
     List<Score> scores = new ArrayList<>();
 
-    List<String> genderPreference = List.of(student.genderPreference.split(","));
+    String[] gps = student.genderPreference.split(",");
+    List<String> genderPreference = new ArrayList<>();
+    for(String gp : gps) {
+      genderPreference.add(gp);
+    }
        
     List<UUID> candidateList = new ArrayList<UUID>();
     for(UUID candidateId : candidates.keySet()) {
