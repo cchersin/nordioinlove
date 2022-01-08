@@ -180,8 +180,16 @@ public class Main {
     return "bye";
   }
 
-  Integer calcScore(UUID id1, UUID id2) {
-    return 0;
+  Integer calcScore(Student student, Student candidate) {
+    Integer score = 0;
+
+    for(String q : student.answers.keySet()) {
+        String candidateA = candidate.answers.get(q);
+        if(student.answers.get(q).equals(candidateA)) {
+          score += 10;
+        }
+    }
+    return score;
   }
 
   void buildPreferences(Student student,  Map<UUID, Student> candidates) throws Exception {
@@ -216,7 +224,7 @@ public class Main {
         score.studentId = candidate.id;
         score.studentName = candidate.name;
         score.studentClass = candidate.schoolClass;
-        score.score = calcScore(student.id, candidate.id);
+        score.score = calcScore(student, candidate);
         score.score -= candidate.chosen;
       
         scores.add(score);
@@ -231,7 +239,7 @@ public class Main {
       candidate.chosen += 1;
     }
 
-    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass).collect(Collectors.toList()).toString();
+    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass + " (" + s.score + ")").collect(Collectors.toList()).toString();
 
     try (Connection connection = dataSource.getConnection()) {    
       PreparedStatement update = connection.prepareStatement("update student set preferences = ? where id = ?");
@@ -254,7 +262,9 @@ public class Main {
 
     try (Connection connection = dataSource.getConnection()) {
       String query = "SELECT id, name, gender, school_class, gender_preference, address from student order by created_on";
+      String answersQuery = "SELECT question, answer from answer where student_id = ?";
       try (Statement stmt = connection.createStatement()) {
+        PreparedStatement answersStmt = connection.prepareStatement(answersQuery);
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
           Student student = new Student();
@@ -263,6 +273,17 @@ public class Main {
           student.schoolClass = rs.getString("school_class");
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
+
+          answersStmt.setObject(1, student.id);
+
+          ResultSet answersRs = answersStmt.executeQuery();
+          while (answersRs.next()) {
+            String q = answersRs.getString("question");
+            String a = answersRs.getString("answer");
+
+            student.answers.put(q, a);
+          }
+
           students.add(student);
         }
       }
