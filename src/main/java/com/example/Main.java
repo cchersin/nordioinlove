@@ -1,19 +1,3 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -52,7 +36,6 @@ import org.springframework.util.MultiValueMap;
 
 
 @Controller
-// @Scope("session")
 @SpringBootApplication
 public class Main {
 
@@ -120,8 +103,6 @@ public class Main {
       insert.setString(4, formData.get("school_class").get(0));
       insert.setString(5, genderPreferences.stream().map(String::valueOf).collect(Collectors.joining(",")));
       insert.setString(6, formData.get("address").get(0));
-
-      // request.getSession().setAttribute("name", formData.get("name").toString());
       
       insert.executeUpdate();
 
