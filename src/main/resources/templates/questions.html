@@ -28,42 +28,131 @@
               <form action="/answers" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
                 <div style="padding-bottom: 20px; padding-left: 20px;" class="u-form-group u-form-radiobutton u-form-group-1  u-border-2 u-border-custom-color-6 u-palette-3-light-1">
                   <input type="hidden" name="student_id" th:value="${student_id}"/>
-    
                   <p class="u-custom-font u-text u-text-1" style="line-height: 28px; padding-top: 20px; padding-bottom: 10px;">
                       <span style="font-size: 2.25rem;">1. </span>
-                      <span style="font-size: 20px;">Domanda domanda domanda domanda?</span>
+                      <span style="font-size: 20px;">Qual'é la tua serata ideale?</span>
                   </p>
                   <div style="font-size: 20px; padding-left: 25px" class="u-form-radio-button-wrapper">
                     <input type="radio" name="q1" value="A">
-                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">risposta</label>
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">netflix & chill</label>
                     <br>
                     <input type="radio" name="q1" value="B">
-                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-2" for="radiobutton">risposta</label>
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-2" for="radiobutton">al mare</label>
                     <br>
                     <input type="radio" name="q1" value="C">
-                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">risposta</label>
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">al ristorante o bar</label>
+                    <br>
+                    <input type="radio" name="q1" value="D">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">a fare una passeggiata</label>
+                    <br>
+                    <input type="radio" name="q1" value="E">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">al cinema</label>
+                    <br>
+                    <input type="radio" name="q1" value="F">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">andare ad una festa</label>
+                    <br>
+                    <input type="radio" name="q1" value="G">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">non mi piace uscire</label>
                     <br>
                   </div>
                 </div>
-                <div style="padding-bottom: 20px; padding-left: 20px;" class="u-form-group u-form-radiobutton u-form-group-1  u-border-2 u-border-custom-color-6 u-palette-3-light-1">
-              
 
+                <div style="padding-bottom: 20px; padding-left: 20px;" class="u-form-group u-form-radiobutton u-form-group-1  u-border-2 u-border-custom-color-6 u-palette-3-light-1"
                   <p class="u-custom-font u-text u-text-1" style="line-height: 28px; padding-top: 20px; padding-bottom: 10px;">
                       <span style="font-size: 2.25rem;">2. </span>
-                      <span style="font-size: 20px;">Domanda domanda domanda domanda?</span>
+                      <span style="font-size: 20px;">Quali sono le tue passioni o hobby?</span>
                   </p>
                   <div style="font-size: 20px; padding-left: 25px" class="u-form-radio-button-wrapper">
                     <input type="radio" name="q2" value="A">
-                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">risposta</label>
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">sport/fare movimento</label>
                     <br>
                     <input type="radio" name="q2" value="B">
-                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-2" for="radiobutton">risposta</label>
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-2" for="radiobutton">leggere</label>
                     <br>
                     <input type="radio" name="q2" value="C">
-                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">risposta</label>
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">disegnare</label>
+                    <br>
+                    <input type="radio" name="q2" value="D">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">guardare la tv</label>
+                    <br>
+                    <input type="radio" name="q2" value="E">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">giocare ai videogiochi</label>
+                    <br>
+                    <input type="radio" name="q2" value="F">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">fare artigianato</label>
+                    <br>
+                    <input type="radio" name="q2" value="G">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">musica</label>
+                    <br>
+                    <input type="radio" name="q2" value="H">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">scrivere</label>
+                    <br>
+                    <input type="radio" name="q2" value="I">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-3" for="radiobutton">fotografia</label>
                     <br>
                   </div>
                 </div>
+
+                <div style="padding-bottom: 20px; padding-left: 20px;" class="u-form-group u-form-radiobutton u-form-group-1  u-border-2 u-border-custom-color-6 u-palette-3-light-1">
+                  <p class="u-custom-font u-text u-text-1" style="line-height: 28px; padding-top: 20px; padding-bottom: 10px;">
+                      <span style="font-size: 2.25rem;">3. </span>
+                      <span style="font-size: 20px;">Fai sport?</span>
+                  </p>
+                  <div style="font-size: 20px; padding-left: 25px" class="u-form-radio-button-wrapper">
+                    <input type="radio" name="q3" value="A">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">si</label>
+                    <br>
+                    <input type="radio" name="q3" value="B">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">no</label>
+                    <br>
+                  </div>
+                </div>
+
+                <div style="padding-bottom: 20px; padding-left: 20px;" class="u-form-group u-form-radiobutton u-form-group-1  u-border-2 u-border-custom-color-6 u-palette-3-light-1">
+                  <p class="u-custom-font u-text u-text-1" style="line-height: 28px; padding-top: 20px; padding-bottom: 10px;">
+                      <span style="font-size: 2.25rem;">4. </span>
+                      <span style="font-size: 20px;">Quanta importanza dai all'aspetto esteriore?</span>
+                  </p>
+                  <div style="font-size: 20px; padding-left: 25px" class="u-form-radio-button-wrapper">
+                    <input type="radio" name="q4" value="A">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">tanta, deve essere un* fig*</label>
+                    <br>
+                    <input type="radio" name="q4" value="B">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">guardo se la persona è curata e pulita</label>
+                    <br>
+                    <input type="radio" name="q4" value="C">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">l'importante è il carattere</label>
+                    <br>
+                    <input type="radio" name="q4" value="D">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">do la stessa importanza che do al carattere</label>
+                    <br>
+                    <input type="radio" name="q4" value="E">
+                    <label style="font-size: 20px; font-family: Abril;" class="u-custom-font u-label u-label-1" for="radiobutton">basta che piaccia a me</label>
+                    <br>
+                  </div>
+                </div>
+
+7. Sei una persona social o preferisci la vita senza social? social, non social
+10. Qual'é il tuo genere di musica preferito? rock, indie, punk, rap, trap, disco, classica, soft, pop, italiana, musical
+11. Qual'é il tuo genere di libri/film preferito? sentimentale, gialli/polizieschi, i classici, racconti grechi e romani, horror/thriller, fantasy, fantascienza, d'azione/avventura, storie vere/biografici, commedie, fumetti/animazione, drammatico, erotico, non ho una preferenza
+12. Qual'é il tuo aesthetic? dark academia, punk, emo, grunge, indie, cottagecore, hippie, glam, dandy, urban, Tumblr, sono originale ❤️
+13. Pro o contro il fumo? pro, contro
+14. Pro o contro l'alcool? pro, contro
+15. Cosa c'è dopo la morte? il paradiso e/o l'inferno, la reincarnazione, niente, altro, qualcosa che non ci siamo ancora immaginati ❤️
+18. Qual'é la tua dieta? mangio tutto, vegetariana, vegana, pescetariana, fruttariana, a base di nutella
+19. Hai già idee su cosa fare dopo il liceo? studiare, lavorare, viaggiare, volontariato, mettere su famiglia, fare il mantenuto
+21. Se potessi scegliere un superpotere, quale vorresti? invisibilità, teletrasporto, telecinesi, volo, leggere nella mente, cambiare di forma, immortalità, superforza
+22. Prima di fare una telefonata fai le prove su quello che dirai? Si, no
+23. Vorresti essere famoso? Si, no, forse ❤️
+24. Che cosa conta di più per te in un rapporto umano? la presenza, la complicità, l'aiuto, fiducia, onestà, essere simili, preferisco i gatti/cani alle persone 
+26. Sei una persona più razionale o sentimentale? razionale, sentimentale
+28. Lego o Play Mobil? Lego, Playmobil
+29. Harry Potter, Signore degli anelli, Hunger games? Harry Potter, Signore degli anelli, Hunger Games
+30. Marvel o DC? Marvel, DC
+33. La tua casa va in fiamme, cosa salvi? il mio animale domestico, il cellulare o il computer, figlio, oggetti di valore affettivo (come vecchie foto), i miei disegni, soldi o gioielli 
+34. Credi di essere una bella persona? Si, no, non lo so, non me lo sono mai chiesto 
+35. Epoca in cui vorresti vivere? ❤️
+37. Sopra o sotto? sopra, sotto, entrambi, nessuno, cosa?
                 <div class="u-align-left u-form-group u-form-submit" style="padding-left: 2px;">
                   <a href="#" style="font-family: Abril Fatface; font-size:20px; font-weight: 700; margin-top: 30px;" class="u-border-2 u-border-black u-btn u-btn-submit u-button-style u-hover-black u-none u-text-black u-text-hover-white u-btn-1">INVIA</a>
                   <input type="submit" value="submit" class="u-form-control-hidden">
