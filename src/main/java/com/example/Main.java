@@ -53,10 +53,12 @@ public class Main {
  
   @RequestMapping("/")
   String index() {
+    migrate();
+    
     return "index";
   }
 
-  void migrate() throws Exception{
+  void migrate() {
    if (!migrated) {
       migrated = true;
       System.out.println("-------- MIGRATE --------- ");
@@ -77,8 +79,7 @@ public class Main {
                 produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
-    migrate();
-
+  
     try (Connection connection = dataSource.getConnection()) {    
       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference, address) values (?, ?, ?, ?, ?, ?)");
       
@@ -135,7 +136,6 @@ public class Main {
                 produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   String saveAnswers(HttpServletRequest request, @RequestBody MultiValueMap<String, String> formData) throws Exception {
-    migrate();
 
     Cookie cookie[]=request.getCookies();
     Cookie cook;
@@ -260,8 +260,6 @@ public class Main {
   @RequestMapping(value="/admin/build-preferences",
                 method=RequestMethod.POST)
   String buildPreferences() throws Exception {
-    migrate();
-
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
@@ -311,8 +309,6 @@ public class Main {
   @RequestMapping(value="/admin/students",
                 method=RequestMethod.GET)
   String getStudents(Map<String, Object> model) throws Exception {
-    migrate();
-
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
@@ -345,6 +341,14 @@ public class Main {
     return "students";
   }
 
+
+  @RequestMapping(value="/admin/maintenance",
+                method=RequestMethod.GET)
+  String maintenance() throws Exception {
+    return "maintenance";
+  }
+  
+
   @RequestMapping(value="/admin/reset",
                 method=RequestMethod.POST)
   String reset() throws Exception {  
@@ -356,6 +360,9 @@ public class Main {
     } catch(Exception e) {
       e.printStackTrace();
     }
+
+    migrate();
+    
     return "index";
   }
 

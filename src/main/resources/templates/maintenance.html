@@ -3,25 +3,15 @@
 <title>Nordio in love</title>
 <body>
 
-  <table class="container">
-    <tr th:each="student : ${students}">
-      <td th:text="${student.id}"/>
-      <td th:text="${student.schoolClass}"/>
-      <td th:text="${student.name}"/>
-      <td th:text="${student.gender}"/>
-      <td th:text="${student.genderPreference}"/>
-      <td th:text="${student.preferences}"/>
-      <td th:text="${student.address}"/>
-    </tr>
-  </table>
-
-  <button id="build-preferences">BUILD PREFERENCES</button>  
+<button id="reset">RESET</button>
+  
 <script>
-    document.getElementById('build-preferences').addEventListener('click', () => {
+    document.getElementById('reset').addEventListener('click', () => {
       event.preventDefault();
       event.stopPropagation();
+      if(confirm("Reset db?")){
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/admin/build-preferences', true);
+        xhr.open("POST", '/admin/reset', true);
 
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -31,6 +21,7 @@
           }
         }
         xhr.send("");
+      }
     });
 </script>
 </body>
