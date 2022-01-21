@@ -1089,36 +1089,6 @@
       transform: translateY(-50%);
     }
   }
-  .u-header.u-sticky {
-    position: fixed;
-    top: 0;
-  }
-  @supports (position: sticky) {
-    .u-header.u-sticky {
-      position: sticky;
-    }
-  }
-  @supports (position: -webkit-sticky) {
-    .u-header.u-sticky {
-      position: -webkit-sticky;
-    }
-  }
-  .u-sticky {
-    transition: background-color 250ms, box-shadow 250ms;
-  }
-  .u-sticky:before {
-    border-style: solid;
-    border-width: 0;
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    transition: border-width 250ms;
-  }
   .u-sheet.u-content-layout {
     display: flex;
     flex-wrap: nowrap;
@@ -1796,12 +1766,6 @@
 
   .u-section-row {
     position: relative;
-  }
-  .u-section-row.u-sticky-fixed {
-    position: fixed;
-    right: 0;
-    left: 0;
-    z-index: 1;
   }
   .u-hover-box {
     overflow: hidden;
