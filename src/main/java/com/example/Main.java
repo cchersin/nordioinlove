@@ -366,6 +366,7 @@ public class Main {
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
           student.preferences = rs.getString("preferences");
+          student.address = rs.getString("address");
           if (student.preferences == null) {
             student.preferences = "?";
           }
