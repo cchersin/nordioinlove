@@ -81,6 +81,14 @@ public class Main {
   String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
   
     try (Connection connection = dataSource.getConnection()) {    
+      PreparedStatement select = connection.prepareStatement("select * from student where name =?");
+      select.setString(1, String.valueOf(formData.get("name").get(0)));
+      ResultSet rs = select.executeQuery();
+      while (rs.next()) {
+        return "{ \"error\": \"" + formData.get("name").get(0) + " ha già partecipato!\"}";
+      }
+    
+   
       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference, address) values (?, ?, ?, ?, ?, ?)");
       
       UUID id = java.util.UUID.randomUUID();

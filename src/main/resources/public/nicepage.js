@@ -1554,9 +1554,14 @@
                         data: o(this).serialize(),
                         dataType: "json"
                     }).done((function(data) {
-                        document.cookie = "token=" + data.token;
 
-                        window.location.replace(data.redirectUrl);
+                        if (data.error) {
+                            n(form, data.error)
+                        } else {
+                            document.cookie = "token=" + data.token;
+
+                            window.location.replace(data.redirectUrl);
+                        }
                         
 
                         /* if (data && (data.success || data.ok))
