@@ -369,6 +369,8 @@ public class Main {
       e.printStackTrace();
     }
 
+    migrated = false;
+
     migrate();
     
     return "index";
