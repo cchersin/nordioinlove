@@ -66,6 +66,8 @@ public class Main {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, preferences varchar, created_on timestamp DEFAULT NOW());");
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar, created_on timestamp DEFAULT NOW());");
+        stmt.executeUpdate("CREATE UNIQUE INDEX idx_student ON student(id)");
+        stmt.executeUpdate("CREATE INDEX idx_answer ON answer(student_id, question)");
         System.out.println("-------- MIGRATE END --------- ");
       } catch(Exception e) {
         e.printStackTrace();
