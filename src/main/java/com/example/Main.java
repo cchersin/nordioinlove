@@ -78,33 +78,50 @@ public class Main {
                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  String createStudent(@RequestBody MultiValueMap<String, String> formData) throws Exception {
+  String createStudent(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request) throws Exception {
+
+    String token = readToken(request);
+
+    List<String> genderPreferences = new ArrayList<String>();
+      
+    if (formData.get("ragazzo") != null) {
+      genderPreferences.add("ragazzo");
+    }
+    if (formData.get("ragazza") != null) {
+      genderPreferences.add("ragazza");
+    }
+    if (formData.get("nonbinary") != null) {
+      genderPreferences.add("nonbinary");
+    }
   
     try (Connection connection = dataSource.getConnection()) {    
-      PreparedStatement select = connection.prepareStatement("select * from student where name =?");
+      PreparedStatement select = connection.prepareStatement("select id from student where name =?");
       select.setString(1, String.valueOf(formData.get("name").get(0)));
       ResultSet rs = select.executeQuery();
-      while (rs.next()) {
-        return "{ \"error\": \"" + formData.get("name").get(0) + " ha già partecipato!\"}";
+      if (rs.next()) {
+        UUID id = (UUID)rs.getObject("id");
+       
+        if (!id.toString().equals(token)) {
+           return "{ \"error\": \"" + formData.get("name").get(0) + " ha già partecipato!\"}";
+        } else {
+          PreparedStatement update = connection.prepareStatement("update student set gender = ?, school_class = ?, gender_preference = ?, address = ? where id = ?");
+      
+          update.setString(1, formData.get("gender").get(0));
+          update.setString(2, formData.get("school_class").get(0));
+          update.setString(3, genderPreferences.stream().map(String::valueOf).collect(Collectors.joining(",")));
+          update.setString(4, formData.get("address").get(0));
+          update.setObject(5, id);
+          
+          update.executeUpdate();
+
+          return "{ \"redirectUrl\": \"/questions\", \"token\": \"" + id + "\"}";
+        }
       }
     
    
       PreparedStatement insert = connection.prepareStatement("insert into student (id, name, gender, school_class, gender_preference, address) values (?, ?, ?, ?, ?, ?)");
       
       UUID id = java.util.UUID.randomUUID();
-      
-
-      List<String> genderPreferences = new ArrayList<String>();
-      
-      if (formData.get("ragazzo") != null) {
-        genderPreferences.add("ragazzo");
-      }
-      if (formData.get("ragazza") != null) {
-        genderPreferences.add("ragazza");
-      }
-      if (formData.get("nonbinary") != null) {
-        genderPreferences.add("nonbinary");
-      }
 
       insert.setObject(1, id);
       insert.setString(2, String.valueOf(formData.get("name").get(0)));
@@ -121,6 +138,16 @@ public class Main {
 
   @RequestMapping("/questions")
   String getQuestions(HttpServletRequest request, Map<String, Object> model) {
+    String token = readToken(request);
+
+    System.out.println("token: " + token);
+
+    model.put("student_id", token);
+     
+    return "questions";
+  }
+
+  String readToken(HttpServletRequest request) {
     Cookie cookie[]=request.getCookies();
     Cookie cook;
     String token="";
@@ -131,11 +158,7 @@ public class Main {
             token=cook.getValue();                  
       }    
     }
-    System.out.println("token: " + token);
-
-    model.put("student_id", token);
-     
-    return "questions";
+    return token;
   }
 
   @RequestMapping(value="/answers",
@@ -145,35 +168,47 @@ public class Main {
   @ResponseBody
   String saveAnswers(HttpServletRequest request, @RequestBody MultiValueMap<String, String> formData) throws Exception {
 
-    Cookie cookie[]=request.getCookies();
-    Cookie cook;
-    String token="";
-    if (cookie != null) {
-      for (int i = 0; i < cookie.length; i++) {
-        cook = cookie[i];
-        if(cook.getName().equalsIgnoreCase("token"))
-            token=cook.getValue();                  
-      }    
-    }
+    String token = readToken(request);
 
     System.out.println("token: " + token);
 
     UUID studentId = UUID.fromString(token);
 
     try (Connection connection = dataSource.getConnection()) {
+      
+
+      PreparedStatement select = connection.prepareStatement("select * from answer where student_id = ? and question = ?");
+      
       PreparedStatement insert = connection.prepareStatement("insert into answer (student_id, question, answer) values (?, ?, ?)");
+
+      PreparedStatement update = connection.prepareStatement("update answer set answer = ? where student_id = ? and question = ?");
     
       formData.keySet().stream().filter(k -> k.startsWith("q")).forEach(question -> {
         try {
           String answer = formData.get(question).toString();
 
-          insert.setObject(1, studentId);
-          insert.setString(2, question);
-          insert.setString(3, answer);
+          select.setObject(1, studentId);
+          select.setString(2, question);
+     
+          ResultSet rs = select.executeQuery();
 
-          insert.executeUpdate();
+          if (rs.next()) {
+            update.setString(1, answer);
+            update.setObject(2, studentId);
+            update.setString(3, question);
 
-          System.out.println(studentId + " answered " +  answer + " to " + question);
+            update.executeUpdate();
+
+            System.out.println("UPDATE " + studentId + " answered " +  answer + " to " + question);
+          } else {      
+            insert.setObject(1, studentId);
+            insert.setString(2, question);
+            insert.setString(3, answer);
+
+            insert.executeUpdate();
+
+            System.out.println("INSERT " + studentId + " answered " +  answer + " to " + question);
+          }
         } catch (SQLException e) {
           e.printStackTrace();
         }
