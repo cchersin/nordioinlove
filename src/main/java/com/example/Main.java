@@ -45,7 +45,7 @@ public class Main {
   @Autowired
   private DataSource dataSource;
 
-  private boolean migrated = false;
+  // private boolean migrated = false;
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
@@ -53,14 +53,14 @@ public class Main {
  
   @RequestMapping("/")
   String index() {
-    migrate();
+    // migrate();
     
     return "index";
   }
 
   void migrate() {
-   if (!migrated) {
-      migrated = true;
+   // if (!migrated) {
+      // migrated = true;
       System.out.println("-------- MIGRATE --------- ");
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
@@ -70,7 +70,7 @@ public class Main {
       } catch(Exception e) {
         e.printStackTrace();
       }
-    }
+    //}
   }
  
   @RequestMapping(value="/student",
@@ -368,8 +368,6 @@ public class Main {
     } catch(Exception e) {
       e.printStackTrace();
     }
-
-    migrated = false;
 
     migrate();
     
