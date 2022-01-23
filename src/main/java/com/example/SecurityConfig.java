@@ -1,6 +1,7 @@
 package com.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,12 +16,19 @@ import org.springframework.security.web.csrf.CsrfFilter;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${admin.username}")
+    private String adminUsername;
+
+    @Value("${admin.pwd}")
+    private String adminPassword; 
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
         auth
           .inMemoryAuthentication()
-          .withUser("admin")
-          .password(passwordEncoder().encode("password"))
+          .withUser(adminUsername)
+          .password(passwordEncoder().encode(adminPassword))
           .roles("ADMIN");
     }
 
