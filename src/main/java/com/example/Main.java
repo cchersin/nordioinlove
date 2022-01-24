@@ -66,8 +66,9 @@ public class Main {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS student (id uuid, name varchar, gender varchar, school_class varchar, gender_preference varchar, address varchar, preferences varchar, created_on timestamp DEFAULT NOW());");
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS answer (student_id uuid, question varchar, answer varchar, created_on timestamp DEFAULT NOW());");
-        stmt.executeUpdate("CREATE UNIQUE INDEX idx_student ON student(id)");
-        stmt.executeUpdate("CREATE INDEX idx_answer ON answer(student_id, question)");
+        stmt.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS idx_student ON student(id)");
+        stmt.executeUpdate("CREATE INDEX IF NOT EXISTS idx_student_name ON student(name)");
+        stmt.executeUpdate("CREATE INDEX IF NOT EXISTS idx_answer ON answer(student_id, question)");
         System.out.println("-------- MIGRATE END --------- ");
       } catch(Exception e) {
         e.printStackTrace();
@@ -403,10 +404,22 @@ public class Main {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("DROP TABLE IF EXISTS student;");
       stmt.executeUpdate("DROP TABLE IF EXISTS answer;");
+      stmt.executeUpdate("DROP INDEX IF EXISTS idx_student");
+      stmt.executeUpdate("DROP INDEX IF EXISTS idx_student_name");
+      stmt.executeUpdate("DROP INDEX IF EXISTS idx_answer");
     } catch(Exception e) {
       e.printStackTrace();
     }
 
+    migrate();
+    
+    return "index";
+  }
+
+  @RequestMapping(value="/admin/migrate",
+                method=RequestMethod.POST)
+  String runMigrate() throws Exception {  
+ 
     migrate();
     
     return "index";
