@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,8 @@ import javax.servlet.http.Cookie;
 
 
 import javax.sql.DataSource;
+import javax.websocket.server.PathParam;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -277,6 +280,9 @@ public class Main {
         score.studentClass = candidate.schoolClass;
         score.score = calcScore(student, candidate);
         score.score -= candidate.chosen;
+        if (candidate.fake) {
+           score.score -= 1000;
+        }
       
         scores.add(score);
       }
@@ -310,7 +316,7 @@ public class Main {
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference, address from student WHERE fake != true order by created_on";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address, fake from student order by created_on";
       String answersQuery = "SELECT question, answer from answer where student_id = ?";
       try (Statement stmt = connection.createStatement()) {
         PreparedStatement answersStmt = connection.prepareStatement(answersQuery);
@@ -322,6 +328,7 @@ public class Main {
           student.schoolClass = rs.getString("school_class");
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
+          student.fake = rs.getBoolean("fake");
 
           answersStmt.setObject(1, student.id);
 
@@ -407,6 +414,35 @@ public class Main {
     return "maintenance";
   }
   
+  @RequestMapping(value="/admin/fake/{id}",
+                method=RequestMethod.POST)
+  String setFake(@PathVariable UUID id) throws Exception {
+
+    try (Connection connection = dataSource.getConnection()) {
+      PreparedStatement update = connection.prepareStatement("update student set fake = true where id = ?");
+       
+      update.setObject(1, id);
+    
+      update.executeUpdate();
+    }
+
+    return "maintenance";
+  }
+
+  @RequestMapping(value="/admin/not-fake/{id}",
+                method=RequestMethod.POST)
+  String setNotFake(@PathVariable UUID id) throws Exception {
+
+    try (Connection connection = dataSource.getConnection()) {
+      PreparedStatement update = connection.prepareStatement("update student set fake = false where id = ?");
+       
+      update.setObject(1, id);
+    
+      update.executeUpdate();
+    }
+
+    return "maintenance";
+  }
 
   @RequestMapping(value="/admin/reset",
                 method=RequestMethod.POST)
