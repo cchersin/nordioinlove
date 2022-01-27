@@ -69,7 +69,8 @@ public class Main {
         stmt.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS idx_student ON student(id)");
         stmt.executeUpdate("CREATE INDEX IF NOT EXISTS idx_student_name ON student(name)");
         stmt.executeUpdate("CREATE INDEX IF NOT EXISTS idx_answer ON answer(student_id, question)");
-        System.out.println("-------- MIGRATE END --------- ");
+        stmt.executeUpdate("ALTER TABLE student ADD COLUMN IF NOT EXISTS fake boolean");
+         System.out.println("-------- MIGRATE END --------- ");
       } catch(Exception e) {
         e.printStackTrace();
       }
@@ -309,7 +310,7 @@ public class Main {
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference, address from student order by created_on";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address from student WHERE fake != true order by created_on";
       String answersQuery = "SELECT question, answer from answer where student_id = ?";
       try (Statement stmt = connection.createStatement()) {
         PreparedStatement answersStmt = connection.prepareStatement(answersQuery);
@@ -358,7 +359,9 @@ public class Main {
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences from student order by school_class, name";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences, fake from student order by school_class, name";
+      PreparedStatement answersStmt = connection.prepareStatement("SELECT count(*) as count FROM answer WHERE student_id = ?");
+
       try (Statement stmt = connection.createStatement()) {
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
@@ -370,9 +373,17 @@ public class Main {
           student.genderPreference = rs.getString("gender_preference");
           student.preferences = rs.getString("preferences");
           student.address = rs.getString("address");
+          student.fake = rs.getBoolean("fake");
           if (student.preferences == null) {
             student.preferences = "?";
           }
+
+          answersStmt.setObject(1, student.id);
+          ResultSet answersRs = answersStmt.executeQuery();
+          while (answersRs.next()) {
+            student.answerCount = answersRs.getInt("count");
+          }
+
           students.add(student);
         }
       }
@@ -381,6 +392,7 @@ public class Main {
     }
 
     model.put("students", students);
+    model.put("count", students.size());
 
 
     System.out.println("Found " + students.size() +  " students");

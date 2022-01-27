@@ -3,15 +3,20 @@
 <title>Nordio in love</title>
 <body>
 
+  Found <span th:text="${count}"/> students
+
   <table class="container">
     <tr th:each="student : ${students}">
-      <td th:text="${student.id}"/>
+      <!--<td th:text="${student.id}"/>-->
       <td th:text="${student.schoolClass}"/>
-      <td th:text="${student.name}"/>
+      <td>[<span th:text="${student.name}"/></span>]</td>
       <td th:text="${student.address}"/>
       <!--<td th:text="${student.gender}"/>
       <td th:text="${student.genderPreference}"/>-->
+      <td><span th:text="${student.answerCount}"/><span> answers</td>
       <td th:text="${student.preferences}"/>
+      <td><a href="/admin/fake/" th:if="${student.fake == true}">SET NOT FAKE</a>
+      <a th:if="${student.fake == false}">SET FAKE</a></td>
     </tr>
   </table>
 

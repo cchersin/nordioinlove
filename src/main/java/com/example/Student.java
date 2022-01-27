@@ -12,5 +12,7 @@ class Student {
     public String address;
     public String preferences;
     public int chosen = 0;
+    public int answerCount = 0;
+    public boolean fake;
     public Map<String,String> answers = new HashMap<String,String>();
 }
