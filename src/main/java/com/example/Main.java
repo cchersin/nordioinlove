@@ -409,6 +409,38 @@ public class Main {
     return "students";
   }
 
+  @RequestMapping(value="/admin/results",
+  method=RequestMethod.GET)
+  String getResults(Map<String, Object> model) throws Exception {
+    List<Student> students = new ArrayList<Student>();
+
+    try (Connection connection = dataSource.getConnection()) {
+      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences, fake from student order by school_class, (case when fake then 3 when fake is null then 2 else 1 end), name";
+   
+      try (Statement stmt = connection.createStatement()) {
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+          Student student = new Student();
+          student.id = (UUID)rs.getObject("id");
+          student.name = rs.getString("name").substring(0, Math.min(rs.getString("name").length(), 30));
+          student.schoolClass = rs.getString("school_class");
+          student.preferences = rs.getString("preferences");
+          student.fake = rs.getBoolean("fake");
+          if (student.preferences == null) {
+            student.preferences = "?";
+          }
+
+          students.add(student);
+        }
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    model.put("students", students);
+    
+    return "results";
+  }
 
   @RequestMapping(value="/admin/maintenance",
                 method=RequestMethod.GET)
