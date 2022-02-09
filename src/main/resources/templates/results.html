@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
+<title>Nordio in love</title>
+<body>
+
+  Found <span th:text="${count}"/> students
+
+  <table class="container">
+    <colgroup>
+        <col width="200">
+        <col width="200">
+        <col width="200">
+        <col width="800">
+      </colgroup>
+    <tr th:each="student : ${students}">
+      <td><span th:if="${student.fake == true}">FAKE</span></td>   
+      <td th:text="${student.schoolClass}"/>
+      <td><span th:text="${student.name}"/></span></td>
+      <td th:text="${student.preferences}"/>
+    </tr>
+  </table>
+
+  </body>
+</html>
