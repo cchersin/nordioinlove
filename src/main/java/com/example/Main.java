@@ -414,7 +414,7 @@ public class Main {
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences, fake from student order by school_class, name, (case when fake then 3 when fake is null then 2 else 1 end) asc";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences, fake from student order by school_class, name";
    
       try (Statement stmt = connection.createStatement()) {
         ResultSet rs = stmt.executeQuery(query);
