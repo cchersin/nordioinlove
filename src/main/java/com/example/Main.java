@@ -367,7 +367,7 @@ public class Main {
     List<Student> students = new ArrayList<Student>();
 
     try (Connection connection = dataSource.getConnection()) {
-      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences, fake from student order by school_class, name";
+      String query = "SELECT id, name, gender, school_class, gender_preference, address, preferences, fake from student order by school_class, name, fake";
       PreparedStatement answersStmt = connection.prepareStatement("SELECT count(*) as count FROM answer WHERE student_id = ?");
 
       try (Statement stmt = connection.createStatement()) {
