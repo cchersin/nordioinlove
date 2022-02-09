@@ -327,6 +327,7 @@ public class Main {
           Student student = new Student();
           student.id = (UUID)rs.getObject("id");
           student.name = rs.getString("name");
+          student.address = rs.getString("address");
           student.schoolClass = rs.getString("school_class");
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
