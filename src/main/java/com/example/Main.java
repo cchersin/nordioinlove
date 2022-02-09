@@ -279,6 +279,7 @@ public class Main {
         score.studentId = candidate.id;
         score.studentName = candidate.name;
         score.studentClass = candidate.schoolClass;
+        score.studentAddress = candidate.address;
         score.score = calcScore(student, candidate);
         score.score -= candidate.chosen;
         if (candidate.fake) {
@@ -297,7 +298,7 @@ public class Main {
       candidate.chosen += 1;
     }
 
-    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass + " (" + s.score + ")").collect(Collectors.toList()).toString();
+    student.preferences = preferences.stream().map(s -> s.studentName + " " + s.studentClass + " (" + s.studentAddress + ")").collect(Collectors.toList()).toString();
 
     try (Connection connection = dataSource.getConnection()) {    
       PreparedStatement update = connection.prepareStatement("update student set preferences = ? where id = ?");
