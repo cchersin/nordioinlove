@@ -13,10 +13,10 @@
       <td th:text="${student.address}"/>
       <!--<td th:text="${student.gender}"/>
       <td th:text="${student.genderPreference}"/>-->
-      <td><span th:text="${student.answerCount}"/><span> answers</td>
-      <td th:text="${student.preferences}"/>
+      <td><span th:text="${student.answerCount}"/><span></td>
       <td><button class="set-not-fake" data-th-attr="data-student-id=${student.id}" th:if="${student.fake == true}">SET NOT FAKE</button>
       <button class="set-fake" data-th-attr="data-student-id=${student.id}" th:if="${student.fake == false}">SET FAKE</button></td>
+      <td th:text="${student.preferences}"/>
     </tr>
   </table>
 
