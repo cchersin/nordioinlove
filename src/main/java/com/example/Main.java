@@ -375,12 +375,12 @@ public class Main {
         while (rs.next()) {
           Student student = new Student();
           student.id = (UUID)rs.getObject("id");
-          student.name = rs.getString("name");
+          student.name = rs.getString("name").substring(0,40);
           student.schoolClass = rs.getString("school_class");
           student.gender = rs.getString("gender");
           student.genderPreference = rs.getString("gender_preference");
           student.preferences = rs.getString("preferences");
-          student.address = rs.getString("address");
+          student.address = rs.getString("address").substring(0,30);
           student.fake = rs.getBoolean("fake");
           if (student.preferences == null) {
             student.preferences = "?";
