@@ -6,6 +6,13 @@
   Found <span th:text="${count}"/> students
 
   <table class="container">
+    <colgroup><col width="100">
+        <col width="100">
+        <col width="200">
+        <col width="200">
+        <col width="200">
+        <col width="800">
+      </colgroup>
     <tr th:each="student : ${students}">
       <!--<td th:text="${student.id}"/>-->
       <td><button class="set-not-fake" data-th-attr="data-student-id=${student.id}" th:if="${student.fake == true}">SET NOT FAKE</button>
